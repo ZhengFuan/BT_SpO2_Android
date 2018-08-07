@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Android系统在处理下面的状态时，是按照它们定义的先后顺序进行处理的 -->
+
+    <!-- 按钮按下 -->
+
+    <!-- 按钮获取焦点 -->
+
+    <!-- 默认 -->
+
+    <item android:state_pressed="true" android:drawable="@drawable/layout_click" />
+    <item android:state_focused="true" android:drawable="@drawable/layout_noclick" />
+    <item android:drawable="@drawable/layout_noclick" />
+</selector>
+

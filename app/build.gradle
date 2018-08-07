@@ -4,8 +4,8 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.andy.spo2"
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdkVersion 18
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -21,4 +21,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'com.github.codbking:CalendarExaple:v1.0.0'
+    compile 'com.inuker.bluetooth:library:1.4.0'
 }
