@@ -21,7 +21,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
-    compile 'com.github.codbking:CalendarExaple:v1.0.0'
-    compile 'com.inuker.bluetooth:library:1.4.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    implementation 'com.github.codbking:CalendarExaple:v1.0.0'
+    implementation 'com.inuker.bluetooth:library:1.4.0'
 }

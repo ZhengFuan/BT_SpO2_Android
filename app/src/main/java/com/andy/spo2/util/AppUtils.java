@@ -7,32 +7,32 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AppUtils {
-    private static List list = new ArrayList();
     public static List<HashMap> testDataList(){
+        List list = new ArrayList();
         if(list.size()==0){
-            list.add(testMap("09:00:00","50","90"));
-            list.add(testMap("09:10:00","95","70"));
-            list.add(testMap("09:11:00","96","86"));
-            list.add(testMap("09:12:00","98","97"));
-            list.add(testMap("09:30:00","97","75"));
-            list.add(testMap("10:05:00","99","80"));
-            list.add(testMap("10:30:00","96","89"));
-            list.add(testMap("10:33:00","99","99"));
-            list.add(testMap("10:40:00","96","96"));
-            list.add(testMap("10:45:00","99","98"));
-            list.add(testMap("11:20:00","96","95"));
-            list.add(testMap("11:30:00","97","110"));
-            list.add(testMap("12:03:00","90","87"));
-            list.add(testMap("13:15:00","92","100"));
-            list.add(testMap("14:30:00","96","94"));
-            list.add(testMap("14:50:00","99","95"));
-            list.add(testMap("15:10:00","93","90"));
-            list.add(testMap("15:15:00","90","96"));
-            list.add(testMap("16:25:00","60","66"));
-            list.add(testMap("17:00:00","98","97"));
-            list.add(testMap("17:25:00","88","96"));
-            list.add(testMap("17:45:00","86","94"));
-            list.add(testMap("18:25:00","98","99"));
+            list.add(testMap("09:00:01","50","90"));
+            list.add(testMap("09:10:02","95","70"));
+            list.add(testMap("09:11:03","96","86"));
+            list.add(testMap("09:12:04","98","97"));
+            list.add(testMap("09:30:05","97","75"));
+            list.add(testMap("10:05:06","99","80"));
+            list.add(testMap("10:30:07","96","89"));
+            list.add(testMap("10:33:08","99","99"));
+            list.add(testMap("10:40:09","96","96"));
+            list.add(testMap("10:45:10","99","98"));
+            list.add(testMap("11:20:11","96","95"));
+            list.add(testMap("11:30:12","97","110"));
+            list.add(testMap("12:03:13","90","87"));
+            list.add(testMap("13:15:14","92","100"));
+            list.add(testMap("14:30:15","96","94"));
+            list.add(testMap("14:50:16","99","95"));
+            list.add(testMap("15:10:17","93","90"));
+            list.add(testMap("15:15:18","90","96"));
+            list.add(testMap("16:25:19","60","66"));
+            list.add(testMap("17:00:20","98","97"));
+            list.add(testMap("17:25:21","88","96"));
+            list.add(testMap("17:45:22","86","94"));
+            list.add(testMap("18:25:23","98","99"));
         }
         return list;
     }

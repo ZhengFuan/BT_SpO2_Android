@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity{
     UUID characterUUID = UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb");
 
     public SQLiteDatabase db;
+    List list = new ArrayList();    //濾波暫存用List
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity{
 
 
     private void gotoPage(int Rid,Fragment fragment,String tag){
+        list.clear();   //切頁面就清空濾波用暫存list
         this.fragment = fragment;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(Rid,fragment,tag);
@@ -268,40 +270,48 @@ public class MainActivity extends AppCompatActivity{
 
     private void parserData(String msg){
         if(msg.contains("%")){
-            String spo2 = msg.split("%")[0].trim();
-            String pulse = msg.split("%")[1].trim();
-            if(!spo2.equals("0")||!pulse.equals("0")||!spo2.equals("")||!pulse.equals("")){
+            int spo2 = Integer.parseInt(msg.split("%")[0].trim());
+            int pulse = Integer.parseInt(msg.split("%")[1].trim());
+            if(spo2>0 || pulse>0){
+                insertData(spo2,pulse);
                 if(fragment.getTag().equals("Measure")){    //收到資料就更動指針數值
                     ((MeasureFragment)fragment).updateSpO2(spo2);
                     ((MeasureFragment)fragment).updatePulse(pulse);
-//                    float amp = Float.parseFloat(spo2);
-//                    if(((MeasureFragment)fragment).ecgChart.getData()==null){
-//                        ((MeasureFragment)fragment).add_ecg_LineDataSet(((MeasureFragment)fragment).ecgChart);
-//                    }
-//                    ((MeasureFragment)fragment).addEntry(((MeasureFragment)fragment).ecgChart,amp);
-                }else if(fragment.getTag().equals("History")){  //抓紀錄測量一分鐘後該筆的資料添加折線圖
-
-                }else if(fragment.getTag().equals("Report")){   //抓紀錄測量一分鐘後該筆的資料添加list
-
+                }else if(fragment.getTag().equals("History")){  //在折線圖頁面且選擇是當天日期就刷新
+                    if(getDateTime1().equals(((HistoryFragment)fragment).mTitle.getText().toString())){
+                        gotoPage(R.id.frag_main,new HistoryFragment(),"History");
+                    }
+                }else if(fragment.getTag().equals("Report")){   //在 list 頁面且選擇是當天日期就刷新
+                    if(getDateTime1().equals(((ReportFragment)fragment).mTitle.getText().toString())){
+                        gotoPage(R.id.frag_main,new ReportFragment(),"Report");
+                    }
                 }
-                insertData(spo2,pulse);
             }
-        }else if(msg.contains(" ")){
-            float amp = Float.parseFloat(msg.split(" ")[1].trim());
-            if(fragment.getTag().equals("Measure") && amp>0){    //收到資料就畫脈搏波形
+        }else if(msg.contains(" ") && fragment.getTag().equals("Measure")){ //字串含有空格且在畫脈搏波形頁面
+            float rl = Float.parseFloat(msg.split(" ")[0].trim());
+            float ir = Float.parseFloat(msg.split(" ")[1].trim());
+            if(rl>0 && ir>0)list.add(rl);
+            if(list.size()>7){
+                list.remove(0); //超過7個點就刪掉第一個
+            }
+            if(list.size()==7){
                 if(((MeasureFragment)fragment).ecgChart.getData()==null){
                     ((MeasureFragment)fragment).add_ecg_LineDataSet(((MeasureFragment)fragment).ecgChart);
                 }
-                ((MeasureFragment)fragment).addEntry(((MeasureFragment)fragment).ecgChart,amp);
+                float sum = 0;
+                for(int i=0;i<7;i++){
+                    sum+=(float)list.get(i);
+                }
+                ((MeasureFragment)fragment).addEntry(((MeasureFragment)fragment).ecgChart,sum/7.0f);
             }
         }
     }
 
-    public void insertData(String spo2,String pulse){
+    public void insertData(int spo2,int pulse){
         ContentValues cv = new ContentValues();
         cv.put("dateTime", getDateTime());
-        cv.put("spo2", spo2);
-        cv.put("pulse", pulse);
+        cv.put("spo2", spo2+"");
+        cv.put("pulse", pulse+"");
         cv.put("user", "guest");
         cv.put("deviceName", deviceName);
         cv.put("deviceMAC", MAC);
@@ -423,6 +433,13 @@ public class MainActivity extends AppCompatActivity{
     private String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
+    private String getDateTime1() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy/MM/dd", Locale.getDefault());
         Date date = new Date();
         return dateFormat.format(date);
     }

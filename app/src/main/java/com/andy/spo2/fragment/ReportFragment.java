@@ -23,7 +23,7 @@ public class ReportFragment extends Fragment {
     private View currentView;
     ListView lv_report;
     CalendarDateView mCalendarDateView;
-    TextView mTitle;
+    public TextView mTitle;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

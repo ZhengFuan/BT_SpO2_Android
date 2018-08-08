@@ -35,7 +35,7 @@ public class HistoryFragment extends Fragment {
     public LineChart spo2Chart;
     public LineChart pulseChart;
     CalendarDateView mCalendarDateView;
-    TextView mTitle;
+    public TextView mTitle;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,15 +48,8 @@ public class HistoryFragment extends Fragment {
         pulseChart = (LineChart)currentView.findViewById(R.id.pulseChart);
 
         initialChart(spo2Chart,1.0f);
-//        add_SpO2_LineDataSet(spo2Chart);
         initialChart(pulseChart,5.0f);
-//        add_Pulse_LineDataSet(pulseChart);
 
-//        for(int i = 0; i< AppUtils.testDataList().size(); i++){
-//            HashMap<String,String> map = AppUtils.testDataList().get(i);
-//            addEntry(spo2Chart,xval_UuixDateTime(map.get("dateTime")),Float.parseFloat(map.get("spo2")));
-//            addEntry(pulseChart,xval_UuixDateTime(map.get("dateTime")),Float.parseFloat(map.get("pulse")));
-//        }
         int[] data = CalendarUtil.getYMD(new Date());
         mTitle.setText(data[0] + "/" + getDisPlayNumber(data[1]) + "/" + getDisPlayNumber(data[2]));
 

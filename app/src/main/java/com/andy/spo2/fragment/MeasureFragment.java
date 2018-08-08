@@ -68,15 +68,15 @@ public class MeasureFragment extends Fragment{
         return currentView;
     }
 
-    public void updateSpO2(String spo2){
-        //dash_spo2.setAngleWithAnim((int)Float.parseFloat(spo2));
-        dash_spo2.setAngle((int)Float.parseFloat(spo2));
+    public void updateSpO2(int spo2){
+        //dash_spo2.setAngleWithAnim(spo2));
+        dash_spo2.setAngle(spo2);
         tv_spo2.setText("血氧 SpO2 : "+spo2+" %");
     }
 
-    public void updatePulse(String pulse){
-        //dash_pulse.setAngleWithAnim(Integer.parseInt(pulse));
-        dash_pulse.setAngle(Integer.parseInt(pulse));
+    public void updatePulse(int pulse){
+        //dash_pulse.setAngleWithAnim(pulse);
+        dash_pulse.setAngle(pulse);
         tv_pulse.setText("脈搏 Pulse : "+pulse+" bpm");
     }
 
@@ -178,7 +178,7 @@ public class MeasureFragment extends Fragment{
 
         mChart.notifyDataSetChanged();
 
-        mChart.setVisibleXRangeMaximum(1.0f*300);
+        mChart.setVisibleXRangeMaximum(1.0f*600);
         Log.d("ecgChart W",ecgChart.getWidth()+"");
         mChart.moveViewToX(data.getXMax());
     }
