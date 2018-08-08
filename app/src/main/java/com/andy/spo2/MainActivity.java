@@ -290,7 +290,11 @@ public class MainActivity extends AppCompatActivity{
         }else if(msg.contains(" ") && fragment.getTag().equals("Measure")){ //字串含有空格且在畫脈搏波形頁面
             float rl = Float.parseFloat(msg.split(" ")[0].trim());
             float ir = Float.parseFloat(msg.split(" ")[1].trim());
-            if(rl>0 && ir>0)list.add(rl);
+            if(rl>0 && ir>0){
+                list.add(rl);
+            }else{
+                return;
+            }
             if(list.size()>7){
                 list.remove(0); //超過7個點就刪掉第一個
             }

@@ -145,7 +145,7 @@ public class HistoryFragment extends Fragment {
         //設置X軸高度
         xl.setAxisLineWidth(1);
         //設置X軸刻度
-        xl.setGranularity(1800);
+        xl.setGranularity(180000);
 
         // 圖表左邊的y坐標軸線
         YAxis leftAxis = mChart.getAxisLeft();
@@ -234,7 +234,7 @@ public class HistoryFragment extends Fragment {
 
         mChart.notifyDataSetChanged();
 
-        mChart.setVisibleXRangeMaximum(1800*4);
+        mChart.setVisibleXRangeMaximum(180000*5);
         mChart.moveViewToX(data.getXMax());
     }
 

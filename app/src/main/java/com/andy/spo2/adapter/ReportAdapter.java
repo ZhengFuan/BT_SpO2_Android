@@ -2,6 +2,7 @@ package com.andy.spo2.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,5 +37,32 @@ public class ReportAdapter extends SimpleCursorAdapter {
         tv_time.setText(cursor.getString(1).split(" ")[1]);
         tv_spo2.setText(cursor.getString(2));
         tv_pulse.setText(cursor.getString(3));
+
+        try{
+            tv_spo2.setTextColor(getSpO2TvColor(cursor.getString(2)));
+            tv_pulse.setTextColor(getPulseTvColor(cursor.getString(3)));
+        }catch (Exception e){
+
+        }
+    }
+
+    private int getSpO2TvColor(String str){
+        int val = Integer.parseInt(str);
+        if(val<90){
+            return Color.parseColor("#ffd700");
+        }else{
+            return Color.parseColor("#9acd32");
+        }
+    }
+
+    private int getPulseTvColor(String str){
+        int val = Integer.parseInt(str);
+        if(val<60){
+            return Color.parseColor("#ffd700");
+        }else if(val>=60 && val<100){
+            return Color.parseColor("#9acd32");
+        }else{
+            return Color.RED;
+        }
     }
 }
