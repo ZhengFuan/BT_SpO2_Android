@@ -272,9 +272,11 @@ public class MainActivity extends AppCompatActivity{
         if(msg.contains("%")){
             int spo2 = Integer.parseInt(msg.split("%")[0].trim());
             int pulse = Integer.parseInt(msg.split("%")[1].trim());
-            if(spo2>0 || pulse>0){
+            if(spo2>0 && pulse>0){
                 insertData(spo2,pulse);
                 if(fragment.getTag().equals("Measure")){    //收到資料就更動指針數值
+                    ((MeasureFragment)fragment).isRun = true;
+                    ((MeasureFragment)fragment).mringView.setVisibility(View.VISIBLE);
                     ((MeasureFragment)fragment).updateSpO2(spo2);
                     ((MeasureFragment)fragment).updatePulse(pulse);
                 }else if(fragment.getTag().equals("History")){  //在折線圖頁面且選擇是當天日期就刷新
@@ -287,28 +289,34 @@ public class MainActivity extends AppCompatActivity{
                     }
                 }
             }
-        }else if(msg.contains(" ") && fragment.getTag().equals("Measure")){ //字串含有空格且在畫脈搏波形頁面
-            float rl = Float.parseFloat(msg.split(" ")[0].trim());
-            float ir = Float.parseFloat(msg.split(" ")[1].trim());
-            if(rl>0 && ir>0){
-                list.add(rl);
-            }else{
-                return;
-            }
-            if(list.size()>7){
-                list.remove(0); //超過7個點就刪掉第一個
-            }
-            if(list.size()==7){
-                if(((MeasureFragment)fragment).ecgChart.getData()==null){
-                    ((MeasureFragment)fragment).add_ecg_LineDataSet(((MeasureFragment)fragment).ecgChart);
-                }
-                float sum = 0;
-                for(int i=0;i<7;i++){
-                    sum+=(float)list.get(i);
-                }
-                ((MeasureFragment)fragment).addEntry(((MeasureFragment)fragment).ecgChart,sum/7.0f);
+        }else if(msg.contains("off") && fragment.getTag().equals("Measure")) { //字串含有off波形線隱藏
+            if(((MeasureFragment)fragment).isRun){
+                ((MeasureFragment)fragment).isRun = false;
+                ((MeasureFragment)fragment).mringView.setVisibility(View.GONE);
             }
         }
+//        else if(msg.contains(" ") && fragment.getTag().equals("Measure")){ //字串含有空格且在畫脈搏波形頁面
+//            float rl = Float.parseFloat(msg.split(" ")[0].trim());
+//            float ir = Float.parseFloat(msg.split(" ")[1].trim());
+//            if(rl>0 && ir>0){
+//                list.add(rl);
+//            }else{
+//                return;
+//            }
+//            if(list.size()>7){
+//                list.remove(0); //超過7個點就刪掉第一個
+//            }
+//            if(list.size()==7){
+//                if(((MeasureFragment)fragment).ecgChart.getData()==null){
+//                    ((MeasureFragment)fragment).add_ecg_LineDataSet(((MeasureFragment)fragment).ecgChart);
+//                }
+//                float sum = 0;
+//                for(int i=0;i<7;i++){
+//                    sum+=(float)list.get(i);
+//                }
+//                ((MeasureFragment)fragment).addEntry(((MeasureFragment)fragment).ecgChart,sum/7.0f);
+//            }
+//        }
     }
 
     public void insertData(int spo2,int pulse){

@@ -25,5 +25,5 @@
     <color name="arc22">#ff0000</color>
     <color name="arc23">#079df9</color>
 
-    <color name = "waveform_background">#00000000</color>
+    <color name="heartbeat">#EAAD7E</color>
 </resources>
