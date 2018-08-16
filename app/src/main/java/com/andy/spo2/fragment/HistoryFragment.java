@@ -48,7 +48,7 @@ public class HistoryFragment extends Fragment {
         pulseChart = (LineChart)currentView.findViewById(R.id.pulseChart);
 
         initialChart(spo2Chart,1.0f);
-        initialChart(pulseChart,5.0f);
+        initialChart(pulseChart,1.0f);
 
         int[] data = CalendarUtil.getYMD(new Date());
         mTitle.setText(data[0] + "/" + getDisPlayNumber(data[1]) + "/" + getDisPlayNumber(data[2]));
@@ -122,6 +122,7 @@ public class HistoryFragment extends Fragment {
         mChart.setTouchEnabled(true);
         //可拖曳
         mChart.setDragEnabled(true);
+        mChart.setDragDecelerationEnabled(false);   //手放開是否會持續滾動
         // 可缩放
         mChart.setScaleEnabled(false);
         mChart.setDrawGridBackground(false);

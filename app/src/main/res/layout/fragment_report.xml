@@ -103,7 +103,7 @@
             android:id="@+id/lv_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_main" />
+            android:background="#FF0B3D5A" />
 
     </com.codbking.calendar.CalendarLayout>
 

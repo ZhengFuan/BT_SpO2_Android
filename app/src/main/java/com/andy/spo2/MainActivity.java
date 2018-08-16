@@ -346,12 +346,12 @@ public class MainActivity extends AppCompatActivity{
         LineChart spo2Chart = ((HistoryFragment)fragment).spo2Chart;
         LineChart pulseChart = ((HistoryFragment)fragment).pulseChart;
         if(cur.getCount()>0){
-            ((HistoryFragment)fragment).spo2Chart.setVisibility(View.VISIBLE);
-            ((HistoryFragment)fragment).pulseChart.setVisibility(View.VISIBLE);
-            ((HistoryFragment)fragment).initialChart(spo2Chart,1.0f);
+            spo2Chart.setVisibility(View.VISIBLE);
+            pulseChart.setVisibility(View.VISIBLE);
             ((HistoryFragment)fragment).add_SpO2_LineDataSet(spo2Chart);
-            ((HistoryFragment)fragment).initialChart(pulseChart,1.0f);
             ((HistoryFragment)fragment).add_Pulse_LineDataSet(pulseChart);
+            spo2Chart.fitScreen();  //重置界限恢復到符合View寬
+            pulseChart.fitScreen(); //重置界限恢復到符合View寬
 
             for(cur.moveToFirst();!cur.isAfterLast();cur.moveToNext()){
                 ((HistoryFragment)fragment).addEntry(spo2Chart,
@@ -362,8 +362,8 @@ public class MainActivity extends AppCompatActivity{
                         Float.parseFloat(cur.getString(3)));
             }
         }else{
-            ((HistoryFragment)fragment).spo2Chart.setVisibility(View.GONE);
-            ((HistoryFragment)fragment).pulseChart.setVisibility(View.GONE);
+            spo2Chart.setVisibility(View.GONE);
+            pulseChart.setVisibility(View.GONE);
         }
     }
 
