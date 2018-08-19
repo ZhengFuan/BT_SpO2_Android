@@ -1,13 +1,18 @@
 package com.andy.spo2;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -65,7 +70,9 @@ public class MainActivity extends AppCompatActivity{
     UUID characterUUID = UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb");
 
     public SQLiteDatabase db;
-    List list = new ArrayList();    //濾波暫存用List
+    //List list = new ArrayList();    //濾波暫存用List
+
+    private static final int REQUEST_CODE_ACCESS_COARSE_LOCATION = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,14 +146,49 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        initBLE();
         MyDBHelper dbhelper = new MyDBHelper(this);
         db = dbhelper.getWritableDatabase();
+
+        requestPermission();
+    }
+
+    public void requestPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   // API  level 大於等於 23 (Android 6.0)
+            //判斷是否具有權限
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                //可向用戶解釋為什麼需要申請該權限
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                    //Toast.makeText(MainActivity.this, "需要打開位置權限才可以搜索到BLE設備", Toast.LENGTH_SHORT).show();
+                }
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        REQUEST_CODE_ACCESS_COARSE_LOCATION);
+            }else{
+                initBLE();
+            }
+        }else{
+            initBLE();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE_ACCESS_COARSE_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                initBLE();
+            } else {
+                requestPermission();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
 
     private void gotoPage(int Rid,Fragment fragment,String tag){
-        list.clear();   //切頁面就清空濾波用暫存list
+        //list.clear();   //切頁面就清空濾波用暫存list
         this.fragment = fragment;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(Rid,fragment,tag);
